@@ -14,13 +14,42 @@ async function loadTodos() {
         const li = document.createElement("li")
 
         const span = document.createElement("span")
+        span.textContent = todo.title
 
+        if (todo.completed) {
+            span.classList.add("completed")
+        }
+
+        span.addEventListener("click", () => {
+            updateTodo(todo.id, todo.title, !todo.completed)
+        })
+
+        const deleteButton = document.createElement("button")
+        deleteButton.textContent = "Delete"
+        deleteButton.addEventListener("click", () => {
+            deleteButton(todo.id)
+        })
+
+        li.appendChild(span)
+        li.appendChild(deleteButton)
+        todoList.appendChild(li)
     })
 
 }
 
-async function addTodo() {
+async function addTodo(title) {
+    await fetch(api_url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            title: title,
+            completed: false
+        })
+    })
 
+    loadTodos()
 
 }
 
