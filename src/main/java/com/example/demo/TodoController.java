@@ -2,7 +2,7 @@ package com.example.demo;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.list;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -25,9 +25,19 @@ public class TodoController {
         return todoRepository.save(todo);
     }
 
-    
+    @PutMapping("/{id}")
+    public Todo updateTodo(@PathVariable Long id, @RequestBody Todo updatedTodo) {
+        return todoRepository.findById(id)
+                .map(todo -> {
+                    todo.setTitle(updatedTodo.getTitle());
+                    todo.setCompleted(updatedTodo.isCompleted());
+                    return todoRepository.save(todo);
+                })
+                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + id));
+    }
 
-
-
-
+    @DeleteMapping("/{id}")
+    public void deleteTodo(@PathVariable Long id) {
+        todoRepository.deleteById(id);
+    }
 }
