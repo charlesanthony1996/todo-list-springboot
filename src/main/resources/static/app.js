@@ -76,5 +76,18 @@ async function deleteTodo(id) {
     loadTodos()
 }
 
+todoForm.addEventListener("submit", event => {
+    event.preventDefault()
+
+    const title = todoInput.value.trim()
+
+    if (title.length === 0) {
+        return
+    }
+
+    addTodo(title)
+    todoInput.value = ""
+})
+
 
 loadTodos()
