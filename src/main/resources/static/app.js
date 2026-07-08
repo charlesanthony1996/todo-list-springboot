@@ -5,10 +5,10 @@ const todoList = document.getElementById("todoList")
 const api_url = "/api/todos"
 
 async function loadTodos() {
-    const response = await fetch(api)
+    const response = await fetch(api_url)
     const todos = await response.json()
 
-    todos.innerHTML = ""
+    todoList.innerHTML = ""
 
     todos.forEach(todo => {
         const li = document.createElement("li")
@@ -27,7 +27,7 @@ async function loadTodos() {
         const deleteButton = document.createElement("button")
         deleteButton.textContent = "Delete"
         deleteButton.addEventListener("click", () => {
-            deleteButton(todo.id)
+            deleteTodo(todo.id)
         })
 
         li.appendChild(span)
